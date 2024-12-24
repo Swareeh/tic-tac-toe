@@ -9,28 +9,36 @@ def DisplayBoard():
             print(j,end=' ')
             
 def Player1Input():
-    row = input('Enter row no: ')
-    column = input('Enter column no: ')
-    
-    try:
-        if board[int(row)-1][int(column)-1] == 'X' or board[int(row)-1][int(column)-1] == 'O':
-            print('Postion Already filled!')
-        else:
-            board[int(row)-1][int(column)-1] = 'X'
-    except:
-        print('Invalid input!')
-    
+    while True:
+        print('Player X:')
+        row = input('Enter row no: ')
+        column = input('Enter column no: ')
+
+        try:
+            if board[int(row)-1][int(column)-1] == 'X' or board[int(row)-1][int(column)-1] == 'O':
+                print('\n[REFEREE]: Postion already filled!\n')
+            else:
+                board[int(row)-1][int(column)-1] = 'X'
+                break
+        except:
+                print('\n[REFEREE]: Invalid input!\n')
+
+
 def Player2Input():
-    row = input('Enter row no: ')
-    column = input('Enter column no: ')
-    
-    try:
-        if board[int(row)-1][int(column)-1] == 'X' or board[int(row)-1][int(column)-1] == 'O':
-            print('Postion Already filled!')
-        else:
-            board[int(row)-1][int(column)-1] = 'O'
-    except:
-        print('Invalid input!')
+    while True:
+        print('Player O:')
+        row = input('Enter row no: ')
+        column = input('Enter column no: ')
+
+        try:
+            if board[int(row)-1][int(column)-1] == 'X' or board[int(row)-1][int(column)-1] == 'O':
+                print('\n[REFEREE]: Postion already filled!\n')
+            else:
+                board[int(row)-1][int(column)-1] = 'O'
+                break
+        except:
+                print('\n[REFEREE]: Invalid input!\n')
+
 
 def Referee():
     global gameOver
@@ -38,40 +46,47 @@ def Referee():
     for i in range(3):
         for j in ['X','O']:
             if board[i][0] == board[i][1] == board[i][2] == j:
-                print('Player',j,'Wins!')
+                print('\n[REFEREE]: Player',j,'Wins!')
                 gameOver = True
+                return
                 
             elif board[0][i] == board[1][i] == board[2][i] == j:
-                print('Player',j,'Wins!')
+                print('\n[REFEREE]: Player',j,'Wins!')
                 gameOver = True
+                return
 
             elif board[0][0] == board[1][1] == board[2][2] == j:
-                print('Player',j,'Wins!')
+                print('\n[REFEREE]: Player',j,'Wins!')
                 gameOver = True
+                return
 
             elif board[0][2] == board[1][1] == board[2][0] == j:
-                print('Player',j,'Wins!')
+                print('\n[REFEREE]: Player',j,'Wins!')
+                gameOver = True
+                return
+
+    empty_space = False
+    for i in board:
+        for j in i:
+            if j == '_':
+                empty_space =  True
+                continue
+
+    if empty_space == False:
+                print('\n[REFEREE]: Game is a Draw!')
                 gameOver = True
 
 
-#FIXME: Decision to make it a draw
-    # empty_space = True
-    # for i in board:
-    #     for j in i:
-    #         if j == '_':
-    #             break
+print('''
 
-
-
-          
-#FIXME: the game flow is a disaster
+▀█▀ █ █▀▀   ▀█▀ ▄▀█ █▀▀   ▀█▀ █▀█ █▀▀
+░█░ █ █▄▄   ░█░ █▀█ █▄▄   ░█░ █▄█ ██▄
+''')
 while gameOver==False:
     DisplayBoard()
     print()
     print()
     Player1Input()
-    print()
-    print()
     Referee()
     if gameOver == True:
         DisplayBoard()
@@ -87,5 +102,4 @@ while gameOver==False:
 
 
 #TODO:
-#Don't skip the players turn if the player provides a invalid spot/a spot that is already filled
 #2 modes AI and Multiplayer Modes
